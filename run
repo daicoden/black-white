@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rackup -p 4567
