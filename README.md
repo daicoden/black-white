@@ -1,5 +1,12 @@
 # Black White
 
+This has a single person pick between black & white, and for ever
+the website is locked to that choice.
+
+erb files are just html files with the ability to inline ruby (if needed).
+
+To get started, clone this repo, and then follow then steps below
+
 ## Setup
 
 ```
