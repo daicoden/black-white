@@ -1,42 +1,38 @@
 class BlackWhite < Sinatra::Application
-  set :database, 'sqlite://black_white.db'
-
-  migration "create the choices table" do
-    database.create_table :choices do
-      primary_key :id
-      String :choice
-    end
-  end
-
-  class Choice < Sequel::Model
-  end
-
-
+  CHOICE_FILE = "choice.txt"
   get "/" do
-    choice = Choice.first
-    if choice
-      redirect "/#{choice.choice}"
+    if File.exists?(CHOICE_FILE)
+      choice = File.read(CHOICE_FILE).chomp
+      redirect "/#{choice}"
     else
       erb :index
     end
   end
 
   get "/black" do
-    choice = Choice.first
-    if choice && choice.choice != 'black'
-      redirect "/#{choice.choice}"
+    if File.exists?(CHOICE_FILE)
+      choice = File.read(CHOICE_FILE).chomp
+      if choice == 'black'
+          erb :black
+      else
+        redirect choice
+      end
     else
-      Choice.create(choice: 'black')
+      File.open(CHOICE_FILE, "w+") { |f| f << 'black' }
       erb :black
     end
   end
 
   get "/white" do
-    choice = Choice.first
-    if choice && choice.choice != 'white'
-      redirect "/#{choice.choice}"
+    if File.exists?(CHOICE_FILE)
+      choice = File.read(CHOICE_FILE).chomp
+      if choice == 'white'
+        erb :white
+      else
+        redirect choice
+      end
     else
-      Choice.create(choice: 'white')
+      File.open(CHOICE_FILE, "w+") { |f| f << 'white' }
       erb :white
     end
   end
